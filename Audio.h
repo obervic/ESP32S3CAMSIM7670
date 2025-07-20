@@ -23,7 +23,7 @@ extern "C" {
 
 #define CURR_RECV_BUF_SIZE    ABUFFER_SIZE
 #define CURR_SAMPLE_RATE     (16000)
-#define CURR_MCLK_MULTIPLE   (384) // If not using 24-bit data width, 256 should be enough
+#define CURR_MCLK_MULTIPLE   (256) // If not using 24-bit data width, 256 should be enough
 #define CURR_MCLK_FREQ_HZ    (CONFIG_SAMPLE_RATE * CONFIG_MCLK_MULTIPLE)
 #define CURR_VOICE_VOLUME    (1)
 #define CURR_MIC_GAIN        (1)

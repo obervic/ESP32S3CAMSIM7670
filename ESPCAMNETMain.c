@@ -20,6 +20,7 @@
 #include "Video.h"
 #include "Audio.h"
 #include "Communication.h"
+#include "Configurator.h"
 
 
 static const char *TAG = "ESP32S3CAMSIM7670";
@@ -144,13 +145,14 @@ void DissableStream()
 
 static void eventfd_timer_init(void)
 {
-   
+   //not released
+   // in this function will init timer
 }
 
 static void video_capture_task(void *arg)
 {
 
-
+//this task capturing video from camera
     while (true) {
 	//suspend if  capture disabled
 	  xSemaphoreTake(semaphore_vcapture,portMAX_DELAY);  
@@ -169,7 +171,7 @@ static void video_capture_task(void *arg)
 
 static void video_h264_encode_task(void *arg)
 {
-
+//this task encoding video frame using H264 codec
 
     while (true) {
 		EncodeFrame();
@@ -180,7 +182,7 @@ static void video_h264_encode_task(void *arg)
 
 static void video_tfsave_task(void *arg)
 {
-
+//this task save video file to SD-card
 
     while (true) {
         SaveFrame();
@@ -190,7 +192,7 @@ static void video_tfsave_task(void *arg)
 
 static void video_stream_task(void *arg)
 {
-
+//this task streaming video to server
 
     while (true) {
         StreamFrame();     
@@ -200,7 +202,7 @@ static void video_stream_task(void *arg)
 
 static void video_file_send_task(void *arg)
 {
-
+// this task saving video file on cloud
 
     while (true) {
        SaveFrame();
@@ -211,7 +213,7 @@ static void video_file_send_task(void *arg)
 static void audio_capture_task(void *arg)
 {
 
-
+//captures audio via audio codec
 
 
     while (true) {
@@ -232,7 +234,7 @@ static void audio_capture_task(void *arg)
 
 static void audio_instream_task(void *arg)
 {
-
+// receive audio stream from server
    while (true) {
 	   xSemaphoreTake(semaphore_ainstream,portMAX_DELAY);
 	   InSreamSound();
@@ -249,7 +251,7 @@ static void audio_instream_task(void *arg)
 
 static void audio_outstream_task(void *arg)
 {
-
+//streaming capturing audio
 
     while (true) {
          OutSreamSound();
@@ -260,7 +262,7 @@ static void audio_outstream_task(void *arg)
 static void audio_encoding_task(void *arg)
 {
 
-
+//encode capturing audio
     while (true) {
         EncodeSound();
     }
@@ -269,7 +271,7 @@ static void audio_encoding_task(void *arg)
 
 static void audio_decoding_task(void *arg)
 {
-
+//decodes incoming audio
 
     while (true) {
          DecodeSound();
@@ -279,7 +281,7 @@ static void audio_decoding_task(void *arg)
 
 static void audio_save_task(void *arg)
 {
-
+//saves audio file to SD-card
 
     while (true) {
          RecordSound();
@@ -289,7 +291,7 @@ static void audio_save_task(void *arg)
 
 static void audio_send_task(void *arg)
 {
-
+//sends audio file to cloud
 
     while (true) {
           SendAudio();
@@ -300,7 +302,7 @@ static void audio_send_task(void *arg)
 
 static void audio_play_task(void *arg)
 {
-
+ //plays income audio via audio codec
 
     while (true) {
           PlaySound();
@@ -310,7 +312,7 @@ static void audio_play_task(void *arg)
 
 static void configurator_task(void *arg)
 {
-
+//this task will start http server via WiFi for configure device
 
     while (true) {
           ConfiguratorLoop();
@@ -320,10 +322,12 @@ static void configurator_task(void *arg)
 
 static void event_loop_task(void *arg)
 {
-
+    //not released
+   // in this function will processing events queue
 
     while (true) {
-
+		//comment next line when released
+       vTaskSuspend(NULL);
     }
     vTaskDelete(NULL);
 }
@@ -346,7 +350,7 @@ void app_main(void)
     xTaskCreate(audio_encoding_task, "audio_encoding_task", 4 * 1024, NULL, 5, &s_aencode_handle);    
     xTaskCreate(audio_save_task, "audio_save_task", 4 * 1024, NULL, 5, &s_asave_handle);        
     xTaskCreate(audio_send_task, "audio_send_task", 4 * 1024, NULL, 5, &s_asend_handle);       
-    xTaskCreate(configurator_task, "worker_task", 4 * 1024, NULL, 5, &s_configurator_handle);
+    xTaskCreate(configurator_task, "worker_task", 4 * 1024, NULL, tskIDLE_PRIORITY, &s_configurator_handle);
     xTaskCreate(event_loop_task, "event_loop_task", 4 * 1024, NULL, 5, NULL);
     StartCapturing();
     

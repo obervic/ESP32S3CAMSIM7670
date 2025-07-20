@@ -9,6 +9,7 @@
  
 
 
+#include "esp_err.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "sensor.h"
@@ -79,18 +80,30 @@ esp_err_t init_camera()
         ESP_LOGE(TAG, "Camera Init Failed");
         return err;
     }
+  return ESP_OK;  
+}
 
-
-
-    return ESP_OK;
+esp_err_t init_codec(esp_h264_resolution_t res)
+{	
+    esp_h264_enc_cfg_sw_t cfg = { 0 };
+    cfg.gop = 5;
+    cfg.fps = 10;
+    cfg.res.width = res.width;
+    cfg.res.height = res.height;
+    cfg.rc.bitrate = cfg.res.width * cfg.res.height * cfg.fps / 20;
+    cfg.rc.qp_min = 26;
+    cfg.rc.qp_max = 26;
+    cfg.pic_type = ESP_H264_RAW_FMT_I420;
+	return esp_h264_enc_sw_new(&cfg, &enc);
  
 }
 
 esp_h264_err_t Video_init()
-{
-	init_camera();
-	
+{	
+	esp_h264_resolution_t res={640,480};
 	initMemory(res);
+	init_camera();
+	init_codec(res);
 	return ESP_H264_ERR_OK;
 };
 

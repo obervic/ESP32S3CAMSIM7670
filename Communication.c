@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include "Communication.h"
+#include "Storage.h"
 
 void communication_init()
 {
