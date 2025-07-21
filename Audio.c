@@ -134,7 +134,15 @@ void PlaySound()
         ESP_ERROR_CHECK(i2s_channel_enable(tx_handle));
 	   }
 	 while (bt>0){
-		 
+		int ret = i2s_channel_write(tx_handle, data_ptr, bt, &bytes_write, portMAX_DELAY);
+        if (ret != ESP_OK) {
+            /* Since we set timeout to 'portMAX_DELAY' in 'i2s_channel_write'
+               so you won't reach here unless you set other timeout value,
+               if timeout detected, it means write operation failed. */
+            //ESP_LOGE(TAG, "[music] i2s write failed, %s");
+            abort();
+        }
+        bt-= bytes_write;
 	 }  
 	 A_PlayEnd();
 	   

@@ -49,6 +49,8 @@ static const char *TAG = "SD_CARD";
 static const char *VideoFN=MOUNT_POINT"/video.dat";
 static const char *AudioFN=MOUNT_POINT"/audio.snd";
 static const char *FNconfig=MOUNT_POINT"/video.cfg";
+static const char *DEVconfig=MOUNT_POINT"/devconfig.cfg";
+static const char *DEVstate=MOUNT_POINT"/devstate.cfg";
 sdmmc_card_t *card;
 const char mount_point[] = MOUNT_POINT;
 sdmmc_host_t host = SDSPI_HOST_DEFAULT();
@@ -69,7 +71,7 @@ esp_vfs_fat_sdmmc_mount_config_t mount_config = {
 #else
         .format_if_mount_failed = false,
 #endif // EXAMPLE_FORMAT_IF_MOUNT_FAILED
-        .max_files = 6,
+        .max_files = 10,
         .allocation_unit_size = 16 * 1024
     };
     
@@ -123,6 +125,16 @@ int InitStorage()
   return ESP_OK;	
   
   
+}
+
+size_t GetLastSentFrame()
+{
+	return 0;
+}
+
+size_t GetLastSentAudioByte()
+{
+	return 0;
 }
 
 uint32_t SaveVideoBuffer(uint8_t *Buffer,uint32_t size)

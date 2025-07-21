@@ -8,11 +8,16 @@
 #ifndef MAIN_STORAGE_H_
 #define MAIN_STORAGE_H_
 
+#include <stddef.h>
 #include <stdint.h>
-uint32_t SaveVideoBuffer(uint8_t *Buffer,uint32_t size);//returns saved bytes count
-void SetFrameSize(uint32_t size);
+size_t SaveVideoBuffer(uint8_t *Buffer,size_t size);//returns saved bytes count
+void SetFrameSize(size_t size);
+size_t GetFrameSize();
+size_t SaveAudioBuffer(uint8_t *Buffer,size_t size);//returns saved bytes count
 
-uint32_t SaveAudioBuffer(uint8_t *Buffer,uint32_t size);//returns saved bytes count
 int InitStorage();
+
+
+
 
 #endif /* MAIN_STORAGE_H_ */

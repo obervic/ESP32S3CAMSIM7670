@@ -12,4 +12,5 @@ void ConfiguratorInit();
 void ConfiguratorDeinit();
 void ConfiguratorLoop();
 
+
 #endif /* MAIN_CONFIGURATOR_H_ */

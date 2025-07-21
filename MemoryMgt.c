@@ -88,14 +88,14 @@ int initBuffer(int index, esp_h264_resolution_t res)
 	return RESULT_OK;
 }
 
-int InitABuffer(pbufferpoll buf)
+int InitABuffer(pbufferpoll buf,uint8_t rate)
 {
 	pAudioBuffers buffers=NULL;
 	//alocate memory for buffers pointers
 	buffers=(pAudioBuffers)malloc(sizeof(struct tAudioBuffers));
 	//init audio buffers for buffers set
-	buffers->rawbuffer=(uint8_t*)malloc(ABUFFER_SIZE);
-	buffers->rbufferSize=ABUFFER_SIZE;
+	buffers->rawbuffer=(uint8_t*)malloc(ABUFFER_SIZE*rate);
+	buffers->rbufferSize=ABUFFER_SIZE*rate;
 	buffers->rbufferCount=0;
 	buffers->encodedbuffer=(uint8_t*)malloc(ABUFFER_SIZE);
 	buffers->enbufferSize=ABUFFER_SIZE;
@@ -122,11 +122,11 @@ int initMemory(esp_h264_resolution_t res)
 		
 		if (k!=RESULT_OK) return k;
 
-		k=InitABuffer(&income_pool[i]);
+		k=InitABuffer(&income_pool[i],ABUFFER_RATE);
 		
 		if (k!=RESULT_OK) return k;
 		
-		k=InitABuffer(&outgoing_pool[i]);
+		k=InitABuffer(&outgoing_pool[i],1);
 		
 		if (k!=RESULT_OK) return k;
 	}
