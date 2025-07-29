@@ -17,6 +17,8 @@
 #include "driver/i2c_master.h"
 #include <stdint.h>
 #include "I2C_routines.h"
+#include "Setting.h"
+
 
 NAU881x_t nau881x;
 /*

@@ -23,7 +23,7 @@ void StopGPS()
 	
 }
 
-void GetLocation(tGPSValue *loc)
+pGPSValue GetLocation()
 {
-	 loc = &Location[0];	
+	 return &Location[0];	
 }

@@ -320,6 +320,16 @@ static void configurator_task(void *arg)
     vTaskDelete(NULL);
 }
 
+static void State_Stream_Task(void *arg)
+{
+//this task will start http server via WiFi for configure device
+
+    while (true) {
+          
+    }
+    vTaskDelete(NULL);
+}
+
 static void event_loop_task(void *arg)
 {
     //not released
@@ -352,6 +362,7 @@ void app_main(void)
     xTaskCreate(audio_send_task, "audio_send_task", 4 * 1024, NULL, 5, &s_asend_handle);       
     xTaskCreate(configurator_task, "worker_task", 4 * 1024, NULL, tskIDLE_PRIORITY, &s_configurator_handle);
     xTaskCreate(event_loop_task, "event_loop_task", 4 * 1024, NULL, 5, NULL);
+    xTaskCreate(State_Stream_Task, "State_Stream_Task", 4 * 1024, NULL, 5, &s_statestream_handle );
     StartCapturing();
     
 }

@@ -19,6 +19,6 @@ typedef struct GPSValue *pGPSValue;
 
 void InitGPS();
 void StopGPS();
-void GetLocation(tGPSValue *loc);
+pGPSValue GetLocation();
 
 #endif /* MAIN_GPS_H_ */

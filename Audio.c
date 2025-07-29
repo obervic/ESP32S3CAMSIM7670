@@ -106,7 +106,10 @@ void DissableSound()
 
 void CaptureSound()
 {
-   	
+	//capture sound from audio codec
+   	bool lastframe=false;
+	uint32_t cnt;
+	pAudioBuffers buffer=GetBuffer_for_send(&lastframe);
 }
 
 void SoundCaptureEnd()
@@ -149,10 +152,6 @@ void PlaySound()
 	 
 }
 
-void SoundPlayEnd()
-{
-	
-}
 
 void RecordSound()
 {
@@ -180,40 +179,40 @@ void DecodeSound()
 void InSreamSound()
 {
 	bool lastframe=false;
-	uint32_t cnt;
+	uint32_t cnt=0;
 	pAudioBuffers buffer=GetABuffer_for_Receive(&lastframe);
 	InSreamSoundBuffer(buffer->encodedbuffer,buffer->enbufferSize,&cnt);
 	buffer->enbufferCount=cnt;
 	A_ReceiveEnd();
 }
 
-void InconeSoundEnd()
-{
-	
-}
-
-
 
 void OutSreamSound()
 {
 	bool lastframe=false;
 	uint32_t cnt;
-	pAudioBuffers buffer=GetBuffer_for_send(&lastframe);
+	pAudioBuffers buffer=GetABuffer_for_send(&lastframe);
 	
 }
 
-void OutGoingSoundEnd()
-{
-	
-}
 
 
 void SetMICGain(int Gain)
 {
-	
+	//regulate microphone sensitivity
+	NAU881x_Set_PGA_Gain(&nau881x,Gain);
 }
 
 void SetSNDGain(int Gain)
 {
-	
+	//regulate output sound power
+	NAU881x_Set_Speaker_Volume(&nau881x,Gain);
+}
+
+void SendAudio()
+{
+	//send audio to  cloud
+	bool lastframe=false;
+	uint32_t cnt;
+	pAudioBuffers buffer=GetABuffer_for_save(&lastframe);
 }

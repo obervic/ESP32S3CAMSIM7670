@@ -12,6 +12,7 @@
 #include "Modem.h"
 
 void communication_init();
+void StartStreaming();
 void StreamVideoBuffer(uint8_t *buff,uint32_t size,uint32_t *sent);
 void InSreamSoundBuffer(uint8_t *buff,uint32_t size,uint32_t *receive);
 void OutSreamSoundBuffer(uint8_t *buff,uint32_t size,uint32_t *sent);

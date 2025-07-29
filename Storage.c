@@ -19,6 +19,8 @@
 #include "sdmmc_cmd.h"
 #include "Hardware.h"
 #include "Storage.h"
+#include "Setting.h"
+
 
 #define MOUNT_POINT "/sd_card"
 FILE *fVideoOut;
@@ -27,6 +29,7 @@ FILE *fAudioOut;
 FILE *fVideoDefGFG;
 FILE *fVideoSND;
 FILE *fAudioSND;
+FILE *fCONFIG;
 
 
 
@@ -76,7 +79,7 @@ esp_vfs_fat_sdmmc_mount_config_t mount_config = {
     };
     
     
-void SetFrameSize(uint32_t size)
+void SetFrameSize(size_t size)
 {
 	TFSaveState.FrameSize=size;
 }
@@ -114,11 +117,23 @@ int InitStorage()
      fVideoOut=fopen(VideoFN, "a");
      fAudioOut=fopen(AudioFN, "a");
      fVideoCFG=fopen(FNconfig, "r");
+     fCONFIG=fopen(DEVconfig, "r");
+ 
+ //if config exist reading device setting
+ if (fCONFIG!=NULL)  {
+	  fread(GetDevSetting(), sizeof(tDeviceSetting), 1, fCONFIG);
+      fclose(fCONFIG);
+  }
+   else {
+	  LoadSettingDefault();
+  }
  //read last state
  
  //size_t res;
- fread(&TFSaveState, sizeof(TFSaveState), 1, fVideoCFG);
- fclose(fVideoCFG);
+ if (fVideoCFG!=NULL){
+   fread(&TFSaveState, sizeof(TFSaveState), 1, fVideoCFG);
+   fclose(fVideoCFG);
+ }
  //set current state    
      
  
@@ -137,14 +152,14 @@ size_t GetLastSentAudioByte()
 	return 0;
 }
 
-uint32_t SaveVideoBuffer(uint8_t *Buffer,uint32_t size)
+size_t SaveVideoBuffer(uint8_t *Buffer,size_t size)
 {
 	uint32_t res=0;
 	res=fwrite(Buffer, 1, size, fVideoOut);
 	return res;
 }
 
-uint32_t SaveAudioBuffer(uint8_t *Buffer,uint32_t size)
+size_t SaveAudioBuffer(uint8_t *Buffer,size_t size)
 {
 	uint32_t res=0;
 	res=fwrite(Buffer, 1, size, fAudioOut);

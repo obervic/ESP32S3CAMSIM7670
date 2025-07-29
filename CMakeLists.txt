@@ -13,16 +13,19 @@ set(requires
         esp_driver_i2c
         esp_driver_i2s
         fatfs
+        libb64
         )
 
 set(SRC
         "Audio.c"
         "Communication.c"
+        "Configurator.c"
         "ESPCAMNETMain.c"
         "Events.c"
         "Hardware.c"
         "MemoryMgt.c"
         "Modem.c"
+        "Monitor.c"
         "NAU881x.c"
         "Setting.c"
         "Storage.c"
@@ -30,6 +33,10 @@ set(SRC
         "Monitor.c"
         "max17048.c"
         "I2C_routines.c"
+        "Keyboard.c"
+        "init.c"
+        "LEDs.c"
+        "GPS.c"
 )
 
 idf_component_register( SRCS  ${SRC}

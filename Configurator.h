@@ -2,7 +2,9 @@
  * Configurator.h
  *
  *  Created on: 20 июл. 2025 г.
- *      Author: Victor
+ *      Author: Victor Oberemok
+ *
+ * http server for configuration of device
  */
 
 #ifndef MAIN_CONFIGURATOR_H_

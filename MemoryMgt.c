@@ -136,7 +136,7 @@ int initMemory(esp_h264_resolution_t res)
 
 void FreeMemory()
 {
-	
+
 };
 
 void SetLowResolution()

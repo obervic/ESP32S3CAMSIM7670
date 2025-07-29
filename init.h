@@ -3,6 +3,8 @@
  *
  *  Created on: 24 июн. 2025 г.
  *      Author: Victor
+ * 
+ *  Default configuration in this file
  */
 
 #ifndef MAIN_INIT_H_
